@@ -6,10 +6,14 @@ import PropTypes from "prop-types";
 // import * as sidebarDivs from "./sidebar/sidebar_divs.js";
 
 export default class Container extends React.Component {
+  constructor(props) {
+    super(props);
+    this.graphRef = React.createRef;
+  }
   render() {
     return (
       <React.Fragment>
-        <Graph start_blank={this.props.start_blank} edit={this.props.edit} initialDrawMode="draw-node" ref={instance => {this.graph = instance; }}/>
+        <Graph start_blank={this.props.start_blank} edit={this.props.edit} initialDrawMode="draw-node" ref={instance => {this.graphRef = instance; }}/>
         <Sidebar reset={() => this.graph.reset()} />
       </React.Fragment>
     )

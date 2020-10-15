@@ -6,7 +6,6 @@ import PropTypes from "prop-types";
 export default class Sidebar extends React.Component {
   constructor(props) {
     super(props);
-    this.reset;
     this.state = {
       toggled: false,
       hidden: true,
