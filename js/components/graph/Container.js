@@ -8,13 +8,13 @@ import PropTypes from "prop-types";
 export default class Container extends React.Component {
   constructor(props) {
     super(props);
-    this.graph = React.createRef;
+    this.graph = React.createRef();
   }
   render() {
     return (
       <React.Fragment>
         <Graph start_blank={this.props.start_blank} edit={this.props.edit} initialDrawMode="draw-node" ref={this.graph}/>
-        <Sidebar reset={() => this.graph.reset()} />
+        <Sidebar reset={() => this.graph.current.reset()} />
       </React.Fragment>
     )
   }
