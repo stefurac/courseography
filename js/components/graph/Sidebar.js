@@ -114,5 +114,5 @@ export default class Sidebar extends React.Component {
 }
 
 Sidebar.propTypes = {
-  reset: PropTypes.Component,
+  reset: PropTypes.Function,
 };
