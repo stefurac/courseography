@@ -329,7 +329,7 @@ sidebarCSS = do
         position absolute
         top (pct 40)
         left (px 4)
-    "#focuses-nav, #graph-nav" ? do
+    "#focuses-nav, #graph-nav," ? do
         cursor pointer
     "#sidebar-nav" ? do
         width100
@@ -342,10 +342,15 @@ sidebarCSS = do
         ul ? do
             width100
             margin0
+            display inlineBlock
+            lineHeight (px 30)
+            alignCenter
+            width (pct 95)
+            textDecoration none
             li ? do
                 "list-style-type" -: "none"
                 display inlineBlock
-                width (pct 48)
+                width (pct 30)
                 "-webkit-transition" -: "all 0.2s"
                 "-moz-transition" -: "all 0.2s"
                 "-ms-transition" -: "all 0.2s"
@@ -362,7 +367,7 @@ sidebarCSS = do
                     alignCenter
                     width (pct 95)
                     textDecoration none
-    "#focuses, #graphs" ? do
+    "#focuses, #graphs, #prerequisites" ? do
         marginTop (px 25)
         marginLeft (px 25)
         height (pct 86)
@@ -405,6 +410,18 @@ sidebarCSS = do
         backgroundColor grey2
         pointerEvents none
     ".graph-button" & do
+        display block
+        cursor pointer
+        fontSize (px 20)
+        border solid (px 1) black
+        "border-radius" -: "6px"
+        textAlign $ alignSide sideCenter
+        width (pct 90)
+        backgroundColor white
+        marginBottom (px 20)
+        ":hover" & do
+            backgroundColor grey2
+    ".filter-button" & do
         display block
         cursor pointer
         fontSize (px 20)

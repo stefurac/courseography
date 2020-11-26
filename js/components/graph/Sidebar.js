@@ -9,6 +9,7 @@ export default class Sidebar extends React.Component {
       contentHidden: true,
       focusDisabled: false,
       graphActive: 0,
+      prerequisitesActive: 0,
       graphName: "",
       toggled: false
     };
@@ -48,6 +49,38 @@ export default class Sidebar extends React.Component {
         </div>
       )
     });
+  }
+  
+
+  createPrerequisitesButtons = () => { console.log('sup')
+      return (
+        <div className="filter-button">
+        <ul>
+        <li><p className="filter">Enter Course(s): </p>
+        <input className="filter" placeholder="CSC401"/></li>
+        <li><p className="filter">Exclude Courses: </p>
+        <input className="filter" placeholder="..."/></li>
+        <li><p className="filter">Departments: </p>
+        <input className="filter" placeholder="..."/>
+        <ul>
+          <li>
+            <p className="filter">How many layers of courses from other department(s) do you want to include? </p>
+            <input className="filter" placeholder="..."/>
+          </li>
+        </ul>
+        </li>
+        <li><p className="filter">Number of layers(?): </p>
+        <input className="filter" placeholder="..."/></li> 
+        <li><p className="filter">Faculties: </p>
+        <input className="filter" placeholder="..."/></li>                           
+        <li><p className="filter">Campuses: </p> 
+        <input className="filter" placeholder="..."/></li>
+        <li><p className="filter">Exclude courses external to campuses: </p>
+        <input type="checkbox" className="filter"/></li>
+        <li><p className="filter">Exclude grade requirements: </p>
+        <input type="checkbox" className="filter"/></li>
+        </ul>
+        </div>)
   }
 
   createFocusButtons = () => {
@@ -99,7 +132,8 @@ export default class Sidebar extends React.Component {
     if (focus) {
       // show focuses
       this.setState({
-        graphActive: 0
+        graphActive: 0,
+        prerequisitesActive: 0
       });
     } else {
       // show graphs
@@ -108,6 +142,26 @@ export default class Sidebar extends React.Component {
       });
     }
   }
+
+  showPrerequisites = prerequisites => { console.log(this.state)
+    if (prerequisites) {
+      // show prerequisites
+      this.setState({
+        prerequisitesActive: 1,
+        graphActive: 0
+      });
+
+      this.createPrerequisitesButtons();
+
+    } else {
+      // show graphs
+      this.setState({
+        prerequisitesActive: 0,
+        graphActive: 1
+      });
+    }
+  }
+
 
   // Sidebar rendering methods
   renderSidebarHeader= () => {
@@ -123,34 +177,54 @@ export default class Sidebar extends React.Component {
 
   renderSidebarNav = () => {
     const focusDisabled = this.state.focusDisabled ? "disabled" : "";
-    const focusActiveClass = this.state.graphActive === 0 ? "active" : "";
-    const graphActiveClass = this.state.graphActive === 1 ? "active" : "";
+    const focusActiveClass = (this.state.graphActive === 0 && this.state.prerequisitesActive === 0) ? "active" : "";
+    const graphActiveClass = (this.state.graphActive === 1 && this.state.prerequisitesActive === 0) ? "active" : "";
+    const prerequisitesActiveClass = this.state.prerequisitesActive === 1 ? "active" : "";
 
     return (
       <nav id="sidebar-nav">
         <ul>
           <li id="graphs-nav" className={graphActiveClass} onClick={() => this.showFocuses(false)}>
-            <div>Graphs</div>
+            <div>Departments</div>
           </li>
           <li id="focuses-nav" className={`${focusActiveClass} ${focusDisabled}`} onClick={() => this.showFocuses(true)}>
             <div>Focuses</div>
+          </li>
+          <li id="prerequisites-nav" className={prerequisitesActiveClass} onClick={() => this.showPrerequisites(true)}>
+            <div>Prerequisites</div>
           </li>
         </ul>
       </nav>
     )
   }
 
-  renderSidebarButtons = () => {
-    const focusHiddenClass = this.state.graphActive === 1 ? "hidden" : "";
-    const graphHiddenClass = this.state.graphActive === 0 ? "hidden" : "";
-
+  renderSidebarButtons = () => { 
+    const focusHiddenClass = (this.state.graphActive === 1 && this.state.prerequisitesActive === 0) 
+    || (this.state.graphActive === 0 && this.state.prerequisitesActive === 1) ? "hidden" : "";
+    const graphHiddenClass = this.state.graphActive === 0 || this.state.prerequisitesActive === 1 ? "hidden" : "";
+    const prerequisitesHiddenClass = this.state.prerequisitesActive === 0 ? "hidden" : "";
+    console.log(focusHiddenClass);
     return (
       <div>
         <div id="graphs" className={graphHiddenClass}>
           {this.createGraphButtons()}
         </div>
         <div id="focuses" className={focusHiddenClass}>
+          <ul>
+            <li>
+              <p className="filter">Select a Department: </p>
+              <input className="filter" placeholder="Computer Science"/>
+            </li>
+            <li>
+              <p className="filter">Select a Program of Study: </p>
+              <input className="filter" placeholder="Specialist"/>
+            </li>
+          </ul>
+          <p>current POSt: Computer Science Specialist</p>
           {this.createFocusButtons()}
+        </div>
+        <div id="prerequisites" className={prerequisitesHiddenClass}>
+          {this.createPrerequisitesButtons()}
         </div>
       </div>
     )
